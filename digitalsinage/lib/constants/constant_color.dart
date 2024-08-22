@@ -11,20 +11,22 @@ class ConstColors {
   static const Color loginextralightgrey = Color(0xFFFBE4E1);
   static const Color backgroundColor = Color(0xFF262626);
   static const Color buttonColor = Color(0xFF167DB7);
+  static const Color extralightmetal = Color(0xFF0FBFF);
+
 
 
 
 
   static const Color loginwhite = Colors.white;
 
-//   static const Color red = Color.fromARGB(255, 255, 0, 0);
+  static const Color red = Color.fromARGB(255, 255, 0, 0);
 
-//   static const shadowColor = Color.fromARGB(255, 196, 196, 196);
+  static const shadowColor = Color.fromARGB(255, 196, 196, 196);
 
-//   static const Color countColor = Color(0xFF800080);
+  static const Color countColor = Color(0xFF800080);
 
-// //Text color
-//   static const Color black = Colors.black;
+//Text color
+  static const Color black = Colors.black;
 // //background color
 //   static const Color backgroundColor = Colors.white;
 }

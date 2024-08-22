@@ -9,21 +9,34 @@ TextTheme getTextTheme() {
   return TextTheme(
     headlineLarge: GoogleFonts.inter(
       fontWeight: FontWeight.w500,
-      color: ConstColors.loginextralightblue,
+      color: ConstColors.extralightmetal,
       decoration: TextDecoration.none,
       fontSize: 28.sp,
     ),
-    headlineMedium: GoogleFonts.inter(
-      fontWeight: FontWeight.w400,
-      color: ConstColors.loginextralightblue,
+ headlineMedium: GoogleFonts.inter(
+      fontWeight: FontWeight.w500,
+      color: Color(0xFFF0FBFF), // Updated color
       decoration: TextDecoration.none,
-      fontSize: 2.sp,
+      fontSize: 28.sp, // Updated font size
+      height: 0, // Updated height
     ),
-    headlineSmall: GoogleFonts.inter(
-      fontWeight: FontWeight.w600,
-      color: ConstColors.loginextralightblue,
+       headlineSmall: GoogleFonts.inter(
+      fontWeight: FontWeight.w400, // Updated font weight
+      color: Color(0xFFF0FBFF), // Updated color
       decoration: TextDecoration.none,
-      fontSize: 10.sp,
+      fontSize: 24.sp, // Updated font size
+      height: 0.05, // Updated height
+    ),
+
+    labelSmall: GoogleFonts.inter(
+      fontWeight: FontWeight.w400,
+      color: ConstColors.loginextralightgrey,
+      decoration: TextDecoration.none,
+      fontSize: 14.sp,
+      
+    )
+
+    
     // headlineSmall: GoogleFonts.inter(
     //   fontWeight: FontWeight.w400,
     //   color: ConstColors.black,
@@ -83,5 +96,6 @@ TextTheme getTextTheme() {
     //   color: ConstColors.purple,
     //   decoration: TextDecoration.none,
     // ),
-    ));
+    
+    );
 }

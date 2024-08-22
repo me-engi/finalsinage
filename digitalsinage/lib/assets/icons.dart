@@ -24,6 +24,7 @@ class CustomIcons {
    static const String appleAsset = 'assets/icons/apple.svg';
     static const String facebookAsset = 'assets/icons/facebook.svg';
      static const String googleAsset = 'assets/icons/google.svg';
+  static const String ellipse = 'assets/icons/Ellipse.svg';
 
 
   // Colors

@@ -13,29 +13,37 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-      final isDesktop = Responsive.isDesktop(context);
+    final isDesktop = Responsive.isDesktop(context);
+
     return Scaffold(
       body: SafeArea(
         child: Row(
           children: [
             if (isDesktop)
               Expanded(
-                flex: 2,
+                flex: 1,  // Adjusted to 1
                 child: SizedBox(
-                  child: LoginWidget(),
+                  child: SignIn(),
                 ),
               ),
-            Expanded(
-              flex: 7,
-              child: SideLoginScreen(),
-
-            ),
-            
+            if (isDesktop)
+              Expanded(
+                flex: 1,  // Adjusted to 1
+                child: SizedBox(
+                  child: SideLoginScreen(),
+                ),
+              ),
+            if (!isDesktop)
+              // For non-desktop layouts, you can specify a different layout if needed
+              Expanded(
+                child: SignIn(),
+              ),
           ],
         ),
       ),
     );
   }
 }
+
 
 
