@@ -12,6 +12,8 @@ class ConstColors {
   static const Color backgroundColor = Color(0xFF262626);
   static const Color buttonColor = Color(0xFF167DB7);
   static const Color extralightmetal = Color(0xFF0FBFF);
+  static const Color lightBlack = Color(0xFF262626);
+  static const Color white = Color(0xFFFFFFFF);
 
 
 
@@ -80,3 +82,11 @@ const darkColorScheme = ColorScheme(
   shadow: Color.fromARGB(255, 100, 100, 100), // Adjusted shadow color
   surfaceTint: Colors.black, // Black surface tint
 );
+const defaultPadding = 16.0;
+
+
+const primaryColor = Color(0xFF2697FF);
+const secondaryColor = Color(0xFF2A2D3E);
+const bgColor = Color(0xFF212332);
+
+// const defaultPadding = 16.0;

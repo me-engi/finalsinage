@@ -8,7 +8,7 @@ class FilterAndViewSwitcher extends StatelessWidget {
   FilterAndViewSwitcher({
     required this.currentView,
     required this.onViewChanged,
-    required this.onFilterChanged,
+    required this.onFilterChanged, required void Function(dynamic range) onDateRangeChanged,
   });
 
   @override

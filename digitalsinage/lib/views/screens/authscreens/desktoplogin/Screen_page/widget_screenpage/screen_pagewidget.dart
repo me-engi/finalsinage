@@ -1,114 +1,103 @@
+import 'package:digitalsinage/mainrepo/mainrepo.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // For responsive design
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-import 'active_inactive.dart';
-import 'add_screen.dart';
-import 'filter_and_viewswitcher.dart';
-import 'pagination_widget.dart';
+import 'active_inactive.dart'; // Import active/inactive status widgets
+import 'add_screen.dart'; // Import add screen button widget
+import 'filter_and_viewswitcher.dart'; // Import filter and view switcher
+import 'pagination_widget.dart'; // Import pagination widget
+import 'screen_model.dart/model.dart'; // Import screen model
+import 'widgetscreen_repo.dart/repo.dart'; // Import repository
+import 'selected.dart'; // Import the Selected widget
+import 'controller/controller.dart'; // Import ScreenController
 
-class MainScreen extends StatefulWidget {
-  final List<Map<String, String>> screens; // List of screens with ID and status
-  final int initialPage;
-  final int totalPages;
-  final String initialView;
-
-  const MainScreen({
-    Key? key,
-    required this.screens,
-    required this.initialPage,
-    required this.totalPages,
-    required this.initialView,
-  }) : super(key: key);
-
-  @override
-  _MainScreenState createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  late int _currentPage;
-  late String _currentView;
-
-  @override
-  void initState() {
-    super.initState();
-    _currentPage = widget.initialPage;
-    _currentView = widget.initialView;
-  }
-
-  void _handlePageChanged(int page) {
-    setState(() {
-      _currentPage = page;
-    });
-  }
-
-  void _handleViewChanged(String? view) {
-    if (view != null) {
-      setState(() {
-        _currentView = view;
-      });
-    }
-  }
-
-  void _handleFilterChanged(String? filter) {
-    if (filter != null) {
-      // Handle filter change logic here
-      // This might involve updating the state or making network requests
-    }
-  }
-
-  void _handleAddScreen() {
-    // Handle add screen logic here
-    // This might involve navigating to a new screen or opening a dialog
-  }
-
+class MainScreenone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: Size(375, 812), // Design size for responsiveness
-      minTextAdapt: true,
-      builder: (context, child) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('Main Screen'),
-            backgroundColor: Color(0xFF2D3142),
-          ),
-          body: SingleChildScrollView(
+    // Initialize the controller with the repository
+    final ScreenController controller = Get.put(
+      ScreenController(repository: ScreenRepository(API().sendRequest)),
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('All Screens'),
+        backgroundColor: const Color(0xFF2D3142),
+      ),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (controller.errorMessage.isNotEmpty) {
+          return Center(child: Text(controller.errorMessage.value));
+        }
+
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: FilterAndViewSwitcher(
-                    currentView: _currentView,
-                    onViewChanged: _handleViewChanged,
-                    onFilterChanged: _handleFilterChanged,
-                  ),
+                // Filter and View Switcher
+                FilterAndViewSwitcher(
+                  currentView: controller.currentView.value,
+                  onViewChanged: (view) => controller.setView(view!),
+                  onFilterChanged: (filter) => controller.setSortBy(filter!),
+                  onDateRangeChanged: (range) => controller.setDateRange(range),
                 ),
+
+                SizedBox(height: 10.h),
+
+                // Selected Filter/Sort Options
+                Selected(
+                  sortBy: controller.sortBy.value,
+                  onSortChanged: (sortBy) => controller.setSortBy(sortBy),
+                ),
+
                 SizedBox(height: 20.h),
-                Container(
-                  width: double.infinity,
-                  child: Column(
-                    children: widget.screens.map((screen) {
+
+                // List of Screens
+                if (controller.displayedScreens.isEmpty)
+                  const Center(child: Text('No screens available'))
+                else
+                  Column(
+                    children: controller.displayedScreens.map((screen) {
                       return ScreenTile(
-                        screenId: screen['id']!,
-                        status: screen['status']!,
+                        screenId: screen.screenId,
+                        status: screen.status,
+                        associatedPlayer: screen.player,
+                        lastUpdated: screen.lastUpdated.toString(),
+                        location: screen.location,
+                        tags: screen.tags.toString(),
+                        scheduleContact: screen.scheduleContext,
                       );
                     }).toList(),
                   ),
+
+                SizedBox(height: 20.h),
+
+                // Add Screen Button
+                AddScreenButton(
+                  onPressed: () {
+                    // Implement your add screen logic here
+                  },
                 ),
+
                 SizedBox(height: 20.h),
-                AddScreenButton(onPressed: _handleAddScreen),
-                SizedBox(height: 20.h),
+
+                // Pagination Widget
                 PaginationWidget(
-                  currentPage: _currentPage,
-                  totalPages: widget.totalPages,
-                  onPageChanged: _handlePageChanged,
+                  currentPage: controller.currentPage.value,
+                  totalPages: (controller.allScreens.length / controller.itemsPerPage).ceil(),
+                  onPageChanged: (page) => controller.setPage(page),
                 ),
               ],
             ),
           ),
         );
-      },
+      }),
     );
   }
 }

@@ -34,7 +34,13 @@ TextTheme getTextTheme() {
       decoration: TextDecoration.none,
       fontSize: 14.sp,
       
-    )
+    ),
+    bodySmall: GoogleFonts.inter(
+      fontWeight: FontWeight.w400,
+      color: ConstColors.white,
+      fontSize: 18.sp,
+      height: 1.2, // Adjusted height for better readability
+    ),
 
     
     // headlineSmall: GoogleFonts.inter(
